@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TextInput, ScrollView, View,
   Button, Picker, Image, TouchableOpacity } from 'react-native';
-
+import SnackBar from './../component/SnackBar.js';
 
 const styles = StyleSheet.create({
   container: {
@@ -45,13 +45,10 @@ export default class VisitorsLog extends React.Component {
       feel: 0,
       feelTrick: false,
       comments: '',
-      openDD: false,
       email: '',
       emailProvider: 'wipro.com'
     }
     this.onPressSubmit = this.onPressSubmit.bind(this);
-    this.backHome = this.backHome.bind(this);
-    this.closeDD = this.closeDD.bind(this);
   }
   onPressSubmit(e) {
     console.log('name - > ', this.state.name);
@@ -60,14 +57,16 @@ export default class VisitorsLog extends React.Component {
     console.log('emailProvider - > ', this.state.emailProvider);
     console.log('feel - > ', this.state.feel);
     console.log('comment - > ', this.state.comments);
-    this.setState({name:'', vertical:'', email: '', feel:0, comments:''});
-    this.props.navigation.navigate('LogConfirm');
-  }
-  backHome() {
-    this.props.navigation.navigate('Home');
-  }
-  closeDD(visible) {
-    this.setState({openDD: visible});
+    if ((this.state.name.length !== 0) &&
+        (this.state.vertical.length !== 0) &&
+        (this.state.email.length !== 0) &&
+        (this.state.feel !==0) &&
+        (this.state.comments.length !== 0)) {
+          this.setState({name:'', vertical:'', email: '', feel:0, comments:''});
+          this.props.navigation.navigate('LogConfirm');
+    } else {
+      this.refs.SnackBar.ShowSnackBarFunction("Fill all the fields");
+    }
   }
   render() {
     return (
@@ -163,11 +162,6 @@ export default class VisitorsLog extends React.Component {
         </View>
         <View style={styles.actions}>
           <View style={{width:40, height:50}}>
-            <TouchableOpacity onPress={this.backHome}>
-              <Image source={require('./../images/error.png')} />
-            </TouchableOpacity>
-          </View>
-          <View style={{width:40, height:50}}>
             <TouchableOpacity onPress={this.onPressSubmit}>
               <Image source={require('./../images/submit.png')} />
             </TouchableOpacity>
@@ -175,6 +169,7 @@ export default class VisitorsLog extends React.Component {
         </View>
         </View>
       </View>
+      <SnackBar ref='SnackBar' />
     </ScrollView>
     );
   }

@@ -14,13 +14,30 @@ const RootStack = StackNavigator({
     }
   },
   Logs: {
-    screen: Logs
+    screen: Logs,
+    navigationOptions: {
+      title: 'Logs',
+      headerStyle: {
+        backgroundColor: '#880E4F'
+      },
+      headerTintColor: '#F5FCFF'
+    }
   },
   VisitorsLog: {
-    screen: VisitorsLog
+    screen: VisitorsLog,
+    navigationOptions: {
+      title: "Visitor's Log",
+      headerStyle: {
+        backgroundColor: '#880E4F'
+      },
+      headerTintColor: '#F5FCFF'
+    }
   },
   LogConfirm: {
-    screen: LogConfirm
+    screen: LogConfirm,
+    navigationOptions: {
+      header: ()=>null
+    }
   }
 }, {
   initialRouteName: 'Home',

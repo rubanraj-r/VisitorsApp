@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Image } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, ImageBackground } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -33,35 +33,25 @@ const styles = StyleSheet.create({
 });
 
 export default class Home extends React.Component {
-  // constructor() {
-  //   super();
-  //   // this.navToVisitorsLog = this.navToVisitorsLog.bind(this);
-  //   // this.navToLogs = this.navToLogs.bind(this);
-  // }
-  // // navToVisitorsLog(e) {
-  // //   console.log('-- > ', e);
-  // //
-  // // }
-  // // navToLogs() {
-  // //   ;
-  // // }
   render() {
     return (
-      <View style={styles.container}>
-        <View>
-          <Image style={styles.images} source={require('./../images/logo.png')} />
-          <Text style={styles.title}>
-            Rapid Prototyping
-          </Text>
-          <Text style={styles.tagLine}>
-            Concept to Reality
-          </Text>
+      <ImageBackground source={require('./../images/bg.jpg')} style={{width: '100%', height: '100%'}}>
+        <View style={styles.container}>
+          <View>
+            <Image style={styles.images} source={require('./../images/logo.png')} />
+            <Text style={styles.title}>
+              Rapid Prototyping
+            </Text>
+            <Text style={styles.tagLine}>
+              Concept to Reality
+            </Text>
+          </View>
+          <View style={styles.navigation}>
+            <Button onPress={()=>this.props.navigation.navigate('VisitorsLog')} title="Visitor's Book" color='grey'/>
+            <Button onPress={()=>this.props.navigation.navigate('Logs')} title="Log" color="#880E4F"/>
+          </View>
         </View>
-        <View style={styles.navigation}>
-          <Button onPress={()=>this.props.navigation.navigate('VisitorsLog')} title="Visitor's Book" color='grey'/>
-          <Button onPress={()=>this.props.navigation.navigate('Logs')} title="Log" color="#880E4F"/>
-        </View>
-      </View>
+      </ImageBackground>
     );
   }
 }

@@ -31,13 +31,6 @@ const styles = StyleSheet.create({
 });
 
 export default class LogConfirm extends React.Component {
-  constructor() {
-    super();
-    this.onPressHome = this.onPressHome.bind(this);
-  }
-  onPressHome() {
-    this.props.navigation.navigate('Home');
-  }
   render() {
     return (
       <ScrollView>
@@ -47,7 +40,7 @@ export default class LogConfirm extends React.Component {
               <Text style={{fontSize: 20}}> Your log is successfully recorded! </Text>
             </View>
             <View style={{flex:1,width:60,height:40}}>
-              <Button onPress={this.onPressHome} title='Home' color='#880E4F' />
+              <Button onPress={() => this.props.navigation.navigate('Home')} title='Home' color='#880E4F' />
             </View>
           </View>
         </View>
