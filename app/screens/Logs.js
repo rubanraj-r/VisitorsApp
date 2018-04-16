@@ -13,9 +13,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "92%",
     minHeight: 100,
-    backgroundColor: '#FCE4EC',
+    backgroundColor: '#F8BBD0',
     borderWidth: 2,
-    borderRadius: 2,
+    borderRadius: 10,
     borderColor: '#ddd',
     borderBottomWidth: 0,
     shadowColor: '#000',
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     elevation: 1,
     marginLeft: 5,
     marginRight: 5,
-    marginTop: 10,
+    marginTop: 10
   },
   feel: {
     width: 60,
@@ -52,21 +52,19 @@ export default class Logs extends React.Component {
   constructor() {
     super();
     this.state = {
-      logs: [
-        {
-          name: 'Ruban',
-          date: '1/4/2018',
-          comment: 'Very Nice',
-          feel: 3
-        },
-        {
-          name: 'Raj',
-          date: '3/4/2018',
-          comment: 'Very Nice',
-          feel: 5
-        }
-      ]
+      logs: []
     };
+  }
+  componentDidMount() {
+    return fetch('http://ec2-13-232-6-202.ap-south-1.compute.amazonaws.com:8082/getLog')
+     .then((response) => response.json())
+     .then((responseJson) => {
+       console.log('res - > ', responseJson);
+       this.setState({logs: responseJson});
+     })
+     .catch((error) =>{
+       console.log(error);
+     });
   }
   render() {
     return (
@@ -93,18 +91,15 @@ export default class Logs extends React.Component {
                   </View>
                   <View style={styles.description}>
                     <View style={styles.header}>
-                      <View style={{width:200}}>
-                        <Text style={{fontSize:22}}>{item.name}</Text>
+                      <View style={{width:185, marginTop: 5}}>
+                        <Text style={{fontSize:22, color:'#212121', fontWeight:'bold'}}>{item.name}</Text>
                       </View>
-                      <View style={{width:60}}>
-                        <Text>{item.date}</Text>
+                      <View style={{width:75, marginTop: 5}}>
+                        <Text style={{color:'#212121'}}>{item.date}</Text>
                       </View>
-                    </View>
-                    <View>
-                      <Text style={{fontSize:12, fontStyle:'italic', }}>Commented : </Text>
                     </View>
                     <View style={{flex:2}}>
-                      <Text style={{fontSize:16}}> &#09; {item.comment}</Text>
+                      <Text style={{fontSize:16, color:'#212121'}}> &#09; {item.comment}</Text>
                     </View>
                   </View>
                 </View>

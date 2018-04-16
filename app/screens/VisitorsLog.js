@@ -44,31 +44,111 @@ export default class VisitorsLog extends React.Component {
       vertical: '',
       feel: 0,
       feelTrick: false,
-      comments: '',
+      comment: '',
       email: '',
       emailProvider: 'wipro.com'
     }
     this.onPressSubmit = this.onPressSubmit.bind(this);
   }
-  onPressSubmit(e) {
+  onPressSubmit() {
     console.log('name - > ', this.state.name);
     console.log('vertical - > ', this.state.vertical);
     console.log('email - >', this.state.email);
     console.log('emailProvider - > ', this.state.emailProvider);
     console.log('feel - > ', this.state.feel);
-    console.log('comment - > ', this.state.comments);
+    console.log('comment - > ', this.state.comment);
     if ((this.state.name.length !== 0) &&
         (this.state.vertical.length !== 0) &&
         (this.state.email.length !== 0) &&
         (this.state.feel !==0) &&
-        (this.state.comments.length !== 0)) {
-          this.setState({name:'', vertical:'', email: '', feel:0, comments:''});
+        (this.state.comment.length !== 0)) {
+          console.log('inside if');
+          var data = {
+            name: this.state.name,
+            vertical: this.state.vertical,
+            email: this.state.email,
+            emailProvider: this.state.emailProvider,
+            feel: this.state.feel,
+            comment: this.state.comment
+          };
+          fetch('http://ec2-13-232-6-202.ap-south-1.compute.amazonaws.com:8082/setLog', {
+            method: 'POST',
+            cache: 'no-cache',
+            credentials: 'include',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data),
+            mode: 'cors',
+            redirect: 'follow',
+            referrer: 'client'
+          })
+          .then((response) => response)
+          .then((responseJson) => {
+            console.log('res - > ', responseJson);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
           this.props.navigation.navigate('LogConfirm');
     } else {
-      this.refs.SnackBar.ShowSnackBarFunction("Fill all the fields");
+      this.refs.SnackBar.ShowSnackBarFunction("Please fill all fields");
     }
   }
   render() {
+    var smileySelected = '';
+    if (this.state.feelTrick) {
+      var imgUrl;
+      if (this.state.feel==1) {
+        imgUrl = require('./../images/1.png');
+      } else if(this.state.feel==2){
+        imgUrl = require('./../images/2.png');
+      } else if (this.state.feel==3) {
+        imgUrl = require('./../images/3.png');
+      } else if (this.state.feel==4) {
+        imgUrl = require('./../images/4.png');
+      } else if (this.state.feel==5) {
+        imgUrl = require('./../images/5.png');
+      }
+      smileySelected = (
+        <View style={styles.formField}>
+          <View style={{marginTop:40}}>
+            <Image source={imgUrl} />
+          </View>
+        </View>
+      );
+    } else {
+      smileySelected = (
+        <View style={styles.formField}>
+          <View style={{width:40, height:50, marginTop:40}}>
+            <TouchableOpacity onPress={()=>this.setState({feel:1, feelTrick:true})}>
+              <Image source={require('./../images/mad.png')} />
+            </TouchableOpacity>
+          </View>
+          <View style={{width:40, height:50, marginTop:40}}>
+            <TouchableOpacity onPress={()=>this.setState({feel:2, feelTrick:true})}>
+              <Image source={require('./../images/sad.png')} />
+            </TouchableOpacity>
+          </View>
+          <View style={{width:40, height:50, marginTop:40}}>
+            <TouchableOpacity onPress={()=>this.setState({feel:3, feelTrick:true})}>
+              <Image source={require('./../images/confused.png')} />
+            </TouchableOpacity>
+          </View>
+          <View style={{width:40, height:50, marginTop:40}}>
+            <TouchableOpacity onPress={()=>this.setState({feel:4, feelTrick:true})}>
+              <Image source={require('./../images/happy.png')} />
+            </TouchableOpacity>
+          </View>
+          <View style={{width:40, height:50, marginTop:40}}>
+            <TouchableOpacity onPress={()=>this.setState({feel:5, feelTrick:true})}>
+              <Image source={require('./../images/in-love.png')} />
+            </TouchableOpacity>
+          </View>
+        </View>
+      );
+    }
     return (
       <ScrollView>
       <View style={styles.container}>
@@ -84,7 +164,7 @@ export default class VisitorsLog extends React.Component {
           </View>
           <View style={styles.formField}>
             <View style={{width:50, height:50, marginTop:15}}>
-              <Text style={{fontSize:16}}>
+              <Text style={{fontSize:16, marginLeft:5}}>
                 CBU &nbsp; -
               </Text>
             </View>
@@ -92,7 +172,7 @@ export default class VisitorsLog extends React.Component {
               <Picker
                 selectedValue={this.state.vertical}
                 onValueChange={(itemValue, itemIndex) => this.setState({vertical: itemValue})}>
-                <Picker.Item label='Choose a Vertical' disabled />
+                <Picker.Item label='Vertical' disabled />
                 <Picker.Item label="Retail" value="Retail" />
                 <Picker.Item label="HTTP" value="HTTP" />
                 <Picker.Item label="Consumer Goods" value="Consumer Goods" />
@@ -122,41 +202,15 @@ export default class VisitorsLog extends React.Component {
               </Picker>
             </View>
           </View>
-          <View style={styles.formField}>
-            <View style={{width:40, height:50, marginTop:40}}>
-              <TouchableOpacity onPress={()=>this.setState({feel:1, feelTrick:true})}>
-                <Image source={require('./../images/mad.png')} />
-              </TouchableOpacity>
-            </View>
-            <View style={{width:40, height:50, marginTop:40}}>
-              <TouchableOpacity onPress={()=>this.setState({feel:2, feelTrick:true})}>
-                <Image source={require('./../images/sad.png')} />
-              </TouchableOpacity>
-            </View>
-            <View style={{width:40, height:50, marginTop:40}}>
-              <TouchableOpacity onPress={()=>this.setState({feel:3, feelTrick:true})}>
-                <Image source={require('./../images/confused.png')} />
-              </TouchableOpacity>
-            </View>
-            <View style={{width:40, height:50, marginTop:40}}>
-              <TouchableOpacity onPress={()=>this.setState({feel:4, feelTrick:true})}>
-                <Image source={require('./../images/happy.png')} />
-              </TouchableOpacity>
-            </View>
-            <View style={{width:40, height:50, marginTop:40}}>
-              <TouchableOpacity onPress={()=>this.setState({feel:5, feelTrick:true})}>
-                <Image source={require('./../images/in-love.png')} />
-              </TouchableOpacity>
-            </View>
-          </View>
+          {smileySelected}
           <View style={styles.formField}>
             <TextInput
               style={{width:200, height:100, marginTop:10}}
               multiline={true}
               numberOfLines = {4}
               placeholder='Comments'
-              onChangeText={(comments) => this.setState({comments})}
-              value={this.state.comments}
+              onChangeText={(comment) => this.setState({comment})}
+              value={this.state.comment}
             />
           </View>
         </View>
