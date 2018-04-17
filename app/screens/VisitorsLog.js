@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   },
   form: {
     flex: 1,
-    width: 200,
+    width: 320,
     alignItems: 'center',
     flexDirection: 'column',
     justifyContent: 'space-around'
@@ -27,8 +27,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   formFieldValue:{
-    width: 200,
-    fontSize: 16
+    width: 320,
+    fontSize: 18
   },
   actions: {
     flex: 1,
@@ -102,48 +102,57 @@ export default class VisitorsLog extends React.Component {
     var smileySelected = '';
     if (this.state.feelTrick) {
       var imgUrl;
+      var imgComment;
       if (this.state.feel==1) {
         imgUrl = require('./../images/1.png');
+        imgComment = 'Disappointing';
       } else if(this.state.feel==2){
         imgUrl = require('./../images/2.png');
+        imgComment = 'Not good enough';
       } else if (this.state.feel==3) {
         imgUrl = require('./../images/3.png');
+        imgComment = 'Sounds Okay';
       } else if (this.state.feel==4) {
         imgUrl = require('./../images/4.png');
+        imgComment = 'Commendable';
       } else if (this.state.feel==5) {
         imgUrl = require('./../images/5.png');
+        imgComment = 'Loved it!';
       }
       smileySelected = (
         <View style={styles.formField}>
-          <View style={{width:40, height:50, marginTop:40}}>
-            <Image source={imgUrl} />
+          <View style={{width:250, height:50, marginTop:40, alignItems:'center'}}>
+            <TouchableOpacity onPress={()=>this.setState({feel:0, feelTrick:false})}>
+              <Image source={imgUrl} />
+            </TouchableOpacity>
+            <Text style={{fontSize:18, marginTop:5, color:'#212121'}}>{imgComment}</Text>
           </View>
         </View>
       );
     } else {
       smileySelected = (
         <View style={styles.formField}>
-          <View style={{width:40, height:50, marginTop:40}}>
+          <View style={{width:48, height:50, marginTop:40}}>
             <TouchableOpacity onPress={()=>this.setState({feel:1, feelTrick:true})}>
               <Image source={require('./../images/mad.png')} />
             </TouchableOpacity>
           </View>
-          <View style={{width:40, height:50, marginTop:40}}>
+          <View style={{width:48, height:50, marginTop:40}}>
             <TouchableOpacity onPress={()=>this.setState({feel:2, feelTrick:true})}>
               <Image source={require('./../images/sad.png')} />
             </TouchableOpacity>
           </View>
-          <View style={{width:40, height:50, marginTop:40}}>
+          <View style={{width:48, height:50, marginTop:40}}>
             <TouchableOpacity onPress={()=>this.setState({feel:3, feelTrick:true})}>
               <Image source={require('./../images/confused.png')} />
             </TouchableOpacity>
           </View>
-          <View style={{width:40, height:50, marginTop:40}}>
+          <View style={{width:48, height:50, marginTop:40}}>
             <TouchableOpacity onPress={()=>this.setState({feel:4, feelTrick:true})}>
               <Image source={require('./../images/happy.png')} />
             </TouchableOpacity>
           </View>
-          <View style={{width:40, height:50, marginTop:40}}>
+          <View style={{width:48, height:50, marginTop:40}}>
             <TouchableOpacity onPress={()=>this.setState({feel:5, feelTrick:true})}>
               <Image source={require('./../images/in-love.png')} />
             </TouchableOpacity>
@@ -165,16 +174,16 @@ export default class VisitorsLog extends React.Component {
             />
           </View>
           <View style={styles.formField}>
-            <View style={{width:55, height:50, marginTop:15}}>
+            <View style={{width:75, height:50, marginTop:15}}>
               <Text style={{fontSize:16, marginLeft:5}}>
                 CBU &nbsp; -
               </Text>
             </View>
-            <View style={{width:145, height:50}}>
+            <View style={{width:245, height:50}}>
               <Picker
                 selectedValue={this.state.vertical}
                 onValueChange={(itemValue, itemIndex) => this.setState({vertical: itemValue})}>
-                <Picker.Item label='Vertical' disabled />
+                <Picker.Item style={{fontStyle:'italic', color:'lightgrey'}} label='Choose a vertical' disabled />
                 <Picker.Item label="Retail" value="Retail" />
                 <Picker.Item label="HTTP" value="HTTP" />
                 <Picker.Item label="Consumer Goods" value="Consumer Goods" />
@@ -183,18 +192,18 @@ export default class VisitorsLog extends React.Component {
             </View>
           </View>
           <View style={styles.formField}>
-            <View style={{width:100, height:50}}>
+            <View style={{width:180, height:50}}>
               <TextInput
-                style={styles.formFieldValue}
+                style={{width:180, fontSize:18}}
                 placeholder='email'
                 value={this.state.email}
                 onChangeText={(email) => this.setState({email})}
               />
             </View>
-            <View style={{width:15, height:50}}>
+            <View style={{width:12, height:50}}>
               <Text> @ </Text>
             </View>
-            <View style={{width:80, height:50}}>
+            <View style={{width:130, height:50}}>
               <Picker
                 selectedValue={this.state.emailProvider}
                 onValueChange={(itemValue, itemIndex) => this.setState({emailProvider: itemValue})}>
@@ -207,7 +216,7 @@ export default class VisitorsLog extends React.Component {
           {smileySelected}
           <View style={styles.formField}>
             <TextInput
-              style={{width:200, height:100, marginTop:10}}
+              style={{width:320, height:100, marginTop:10, fontSize:18}}
               multiline={true}
               numberOfLines = {5}
               maxLength = {160}
