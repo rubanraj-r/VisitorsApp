@@ -9,7 +9,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
     marginTop: 22,
-    overflow: 'scroll'
+    overflow: 'scroll',
+    height: '100%'
   },
   layoutCard: {
     borderStyle: 'solid'
@@ -48,6 +49,7 @@ export default class VisitorsLog extends React.Component {
       email: '',
       emailProvider: 'wipro.com'
     }
+    this.commentLength = 160;
     this.onPressSubmit = this.onPressSubmit.bind(this);
   }
   onPressSubmit() {
@@ -113,7 +115,7 @@ export default class VisitorsLog extends React.Component {
       }
       smileySelected = (
         <View style={styles.formField}>
-          <View style={{marginTop:40}}>
+          <View style={{width:40, height:50, marginTop:40}}>
             <Image source={imgUrl} />
           </View>
         </View>
@@ -163,12 +165,12 @@ export default class VisitorsLog extends React.Component {
             />
           </View>
           <View style={styles.formField}>
-            <View style={{width:50, height:50, marginTop:15}}>
+            <View style={{width:55, height:50, marginTop:15}}>
               <Text style={{fontSize:16, marginLeft:5}}>
                 CBU &nbsp; -
               </Text>
             </View>
-            <View style={{width:150, height:50}}>
+            <View style={{width:145, height:50}}>
               <Picker
                 selectedValue={this.state.vertical}
                 onValueChange={(itemValue, itemIndex) => this.setState({vertical: itemValue})}>
@@ -207,7 +209,8 @@ export default class VisitorsLog extends React.Component {
             <TextInput
               style={{width:200, height:100, marginTop:10}}
               multiline={true}
-              numberOfLines = {4}
+              numberOfLines = {5}
+              maxLength = {160}
               placeholder='Comments'
               onChangeText={(comment) => this.setState({comment})}
               value={this.state.comment}
@@ -228,3 +231,8 @@ export default class VisitorsLog extends React.Component {
     );
   }
 }
+
+//
+// <Text style={{fontSize:10, color:'lightgrey', textAlign:'right'>
+//   {this.state.commentLength}
+// </Text>

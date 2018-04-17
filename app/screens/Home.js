@@ -74,8 +74,12 @@ export default class Home extends React.Component {
             </View>
           </View>
             <View style={styles.navigation}>
-              <Button onPress={()=>this.props.navigation.navigate('VisitorsLog')} title="Visitor's Book" color='grey'/>
-              <Button onPress={()=>this.props.navigation.navigate('Logs')} title="Log" color="#880E4F"/>
+              <View style={{padding:10}}>
+                <Button onPress={()=>this.props.navigation.navigate('VisitorsLog')} title="Visitor's Book" color='grey'/>
+              </View>
+              <View style={{padding:10}}>
+                <Button onPress={()=>this.props.navigation.navigate('Logs')} title="Log" color="#880E4F"/>
+              </View>
             </View>
         </ScrollView>
       </ImageBackground>
