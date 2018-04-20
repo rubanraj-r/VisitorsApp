@@ -1,26 +1,25 @@
 import React from 'react';
 import { StyleSheet, Text, TextInput, ScrollView, View,
-  Button, Picker, Image, TouchableOpacity } from 'react-native';
+  Button, Picker, Image, TouchableOpacity, Dimensions } from 'react-native';
 import SnackBar from './../component/SnackBar.js';
+
+var win = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
-    marginTop: 22,
     overflow: 'scroll',
     height: '100%'
   },
-  layoutCard: {
-    borderStyle: 'solid'
-  },
   form: {
     flex: 1,
-    width: 320,
-    alignItems: 'center',
     flexDirection: 'column',
-    justifyContent: 'space-around'
+    width: 320,
+    marginTop: 22,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   formField: {
     flex: 1,
@@ -33,8 +32,8 @@ const styles = StyleSheet.create({
   actions: {
     flex: 1,
     flexDirection: 'row',
-    marginTop:50,
-    justifyContent: 'space-around'
+    marginTop: win.height/5 - 45,
+    justifyContent: 'flex-end'
   }
 });
 export default class VisitorsLog extends React.Component {
@@ -46,11 +45,20 @@ export default class VisitorsLog extends React.Component {
       feel: 0,
       feelTrick: false,
       comment: '',
+      commentLength: 160,
       email: '',
       emailProvider: 'wipro.com'
     }
     this.commentLength = 160;
     this.onPressSubmit = this.onPressSubmit.bind(this);
+  }
+  onChangeComment(comment){
+    var len = this.commentLength - comment.length;
+    this.setState({
+      comment: comment,
+      commentLength: len
+    });
+    console.log('len - > ', this.state.commentLength);
   }
   onPressSubmit() {
     console.log('name - > ', this.state.name);
@@ -163,7 +171,6 @@ export default class VisitorsLog extends React.Component {
     return (
       <ScrollView>
       <View style={styles.container}>
-        <View style={styles.layoutCard}>
         <View style={styles.form}>
           <View style={styles.formField}>
             <TextInput
@@ -214,16 +221,21 @@ export default class VisitorsLog extends React.Component {
             </View>
           </View>
           {smileySelected}
-          <View style={styles.formField}>
-            <TextInput
-              style={{width:320, height:100, marginTop:10, fontSize:18}}
-              multiline={true}
-              numberOfLines = {5}
-              maxLength = {160}
-              placeholder='Comments'
-              onChangeText={(comment) => this.setState({comment})}
-              value={this.state.comment}
-            />
+          <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+            <View style={{height: 150}}>
+              <TextInput
+                style={{width:320, height:150, fontSize:18}}
+                multiline={true}
+                numberOfLines = {5}
+                maxLength = {160}
+                placeholder='Comments'
+                onChangeText={this.onChangeComment.bind(this)}
+                value={this.state.comment}
+                />
+              <Text style={{fontSize:10, color:'lightgrey', textAlign:'right'}}>
+                {this.state.commentLength}
+              </Text>
+            </View>
           </View>
         </View>
         <View style={styles.actions}>
@@ -233,15 +245,9 @@ export default class VisitorsLog extends React.Component {
             </TouchableOpacity>
           </View>
         </View>
-        </View>
       </View>
       <SnackBar ref='SnackBar' />
     </ScrollView>
     );
   }
 }
-
-//
-// <Text style={{fontSize:10, color:'lightgrey', textAlign:'right'>
-//   {this.state.commentLength}
-// </Text>

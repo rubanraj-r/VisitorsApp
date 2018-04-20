@@ -5,15 +5,26 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  feelCountCard: {
+    flex: 1,
+    flexDirection: 'row',
+    width: "70%",
+    marginTop: 10
+  },
+  feelCountView: {
+    flex:1,
+    flexDirection: 'column',
+    width:48,
     alignItems: 'center'
   },
   card: {
     flex: 1,
     flexDirection: "row",
-    width: "92%",
+    width: "97.5%",
     minHeight: 100,
-    backgroundColor: '#F8BBD0',
+    backgroundColor: 'rgba(248,187,208,0.7)',
     borderWidth: 2,
     borderRadius: 10,
     borderColor: '#ddd',
@@ -52,24 +63,66 @@ export default class Logs extends React.Component {
   constructor() {
     super();
     this.state = {
-      logs: []
+      logs: [],
+      feel: {}
     };
   }
   componentDidMount() {
-    return fetch('http://ec2-13-232-6-202.ap-south-1.compute.amazonaws.com:8082/getLog')
+    fetch('http://ec2-13-232-6-202.ap-south-1.compute.amazonaws.com:8082/getLog')
      .then((response) => response.json())
      .then((responseJson) => {
        console.log('res - > ', responseJson);
        this.setState({logs: responseJson});
      })
-     .catch((error) =>{
+     .catch((error) => {
+       console.log(error);
+     });
+     fetch('http://ec2-13-232-6-202.ap-south-1.compute.amazonaws.com:8082/getFeelCount')
+     .then((response) => response.json())
+     .then((responseJson) => {
+       this.setState({feel: responseJson[0].feel});
+     })
+     .catch((error) => {
        console.log(error);
      });
   }
   render() {
     return (
-      <ScrollView>
         <View style={styles.container}>
+          <View style={styles.feelCountCard}>
+            <View style={styles.feelCountView}>
+              <Image source={require('./../images/mad.png')} />
+              <Text style={{color:'#880E4F', fontStyle:'italic', fontWeight:'bold'}}>
+                {this.state.feel["1"] ? this.state.feel["1"] : 0 }
+              </Text>
+            </View>
+            <View style={styles.feelCountView}>
+              <Image source={require('./../images/sad.png')} />
+              <Text style={{color:'#880E4F', fontStyle:'italic', fontWeight:'bold'}}>
+                {this.state.feel["2"] ? this.state.feel["2"] : 0 }
+              </Text>
+            </View>
+            <View style={styles.feelCountView}>
+              <Image source={require('./../images/confused.png')} />
+              <Text style={{color:'#880E4F', fontStyle:'italic', fontWeight:'bold'}}>
+                {this.state.feel["3"] ? this.state.feel["3"] : 0 }
+              </Text>
+            </View>
+            <View style={styles.feelCountView}>
+              <Image source={require('./../images/happy.png')} />
+              <Text style={{color:'#880E4F', fontStyle:'italic', fontWeight:'bold'}}>
+                {this.state.feel["4"] ? this.state.feel["4"] : 0 }
+              </Text>
+            </View>
+            <View style={styles.feelCountView}>
+              <Image source={require('./../images/in-love.png')} />
+              <Text style={{color:'#880E4F', fontStyle:'italic', fontWeight:'bold'}}>
+                {this.state.feel["5"] ? this.state.feel["5"] : 0 }
+              </Text>
+            </View>
+          </View>
+          <View style={{flex:9, flexDirection: 'column', width: '97.5%'}}>
+          <ScrollView style={{flex: 1}}>
           {
             this.state.logs.map((item, i) => {
               var imgUrl;
@@ -106,8 +159,9 @@ export default class Logs extends React.Component {
               );
             })
           }
+        </ScrollView>
         </View>
-      </ScrollView>
+      </View>
     );
   }
 }
